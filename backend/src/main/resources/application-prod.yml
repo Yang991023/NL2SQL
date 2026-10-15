@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://aws-0-ap-south-1.pooler.supabase.com:5432/postgres
+    username: postgres.rhxtdtbwshfbagscrqiy
+    password: qrKWcKx16IHSyOk4
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 10000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: public
+    open-in-view: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+nl2sql:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-seconds: 86400
+    header: Authorization
+    prefix: "Bearer "
+  aes:
+    key: ${AES_KEY}
+  sql:
+    query-timeout-seconds: 15
+    max-rows: 10000
+    export-max-rows: 100000
+    export-timeout-seconds: 30
+  ratelimit:
+    sql-exec-per-minute: 1000
+  ai:
+    auto-mock: false
+
+logging:
+  level:
+    root: INFO
+    com.nl2sql: INFO
+    org.hibernate.SQL: WARN
