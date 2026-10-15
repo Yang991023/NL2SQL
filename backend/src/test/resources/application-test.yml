@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:nl2sql;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+nl2sql:
+  jwt:
+    secret: "ZmFrZS1zZWNyZXQta2V5LWZvci1ubDJzcWwtbXZwLW9ubHktaW5zdGFuY2U="
+    expiration-seconds: 3600
+    header: Authorization
+    prefix: "Bearer "
+  aes:
+    key: "test_aes_key_32_bytes_padding_xx"

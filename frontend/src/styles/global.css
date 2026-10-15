@@ -1,0 +1,76 @@
+/* 全局表单宽度增强: Select/Input 宽度 1.4x + Select 模糊搜索 */
+
+/* Select: 1.4x 宽度 (默认 200px → 280px) */
+.ant-select,
+.ant-select-single {
+  width: 280px !important;
+}
+
+/* Input/Select 输入框: 1.4x 宽度 */
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-picker {
+  width: 280px !important;
+}
+
+/* Input.Search 也需要支持 */
+.ant-input-group .ant-input {
+  width: 100% !important;
+}
+
+/* Modal 里的 Form.Item 也用 280px */
+.ant-modal .ant-form-item .ant-select,
+.ant-modal .ant-form-item .ant-input,
+.ant-modal .ant-form-item .ant-input-affix-wrapper {
+  width: 100% !important;
+}
+
+/* Select 模糊搜索: 所有 Select 默认 showSearch */
+.ant-select-show-search .ant-select-selector {
+  cursor: text;
+}
+
+/* ============================================================ */
+/* 【查询画布】表结构配置区: 控件宽度严格匹配列宽, 不走全局默认 */
+/* ============================================================ */
+.query-canvas-table .ant-select,
+.query-canvas-table .ant-input,
+.query-canvas-table .ant-input-affix-wrapper {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* 表结构区单元格: 紧凑内边距, 避免撑高行高 */
+.query-canvas-table .ant-table-td {
+  padding: 2px 4px !important;
+  vertical-align: middle;
+  height: auto !important;
+}
+
+/* 表结构区表头: 紧凑内边距 */
+.query-canvas-table .ant-table-th {
+  padding: 6px 4px !important;
+  font-size: 12px;
+  height: auto !important;
+}
+
+/* 表结构区 Select 选择器: 不超出单元格, 紧凑内边距 */
+.query-canvas-table .ant-select-selector {
+  min-width: 0 !important;
+  width: 100% !important;
+  padding: 0 4px !important;
+}
+
+/* 表结构区 Input: 不超出单元格 */
+.query-canvas-table .ant-input {
+  padding: 0 4px;
+}
+
+/* 表结构区 Select 选中项: 不被换行截断 */
+.query-canvas-table .ant-select-selection-item {
+  padding-right: 18px !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

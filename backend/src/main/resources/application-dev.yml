@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/nl2sql;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;AUTO_RECONNECT=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+nl2sql:
+  jwt:
+    secret: "ZmFrZS1zZWNyZXQta2V5LWZvci1ubDJzcWwtbXZwLW9ubHktaW5zdGFuY2U="
+    expiration-seconds: 86400
+    header: Authorization
+    prefix: "Bearer "
+  aes:
+    key: "dev_aes_key_32_bytes_padding_xx"
+  sql:
+    query-timeout-seconds: 15
+    max-rows: 10000
+    export-max-rows: 100000
+    export-timeout-seconds: 30
+  ratelimit:
+    sql-exec-per-minute: 1000
+  ai:
+    auto-mock: true
+
+logging:
+  level:
+    root: INFO
+    com.nl2sql: DEBUG

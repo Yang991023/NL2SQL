@@ -1,0 +1,44 @@
+services:
+  # ========================================================================
+  # 镜像源说明:
+  # - 默认走 DaoCloud 国内镜像 (免登录、稳定,推荐国内网络)
+  # - 国外用户: 把 image 改回 postgres:16-alpine / redis:7-alpine
+  # - 备选源: registry.cn-shanghai.aliyuncs.com (需 docker login)
+  # ========================================================================
+
+  postgres:
+    image: docker.m.daocloud.io/library/postgres:16-alpine
+    container_name: nl2sql-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nl2sql
+      POSTGRES_USER: nl2sql
+      POSTGRES_PASSWORD: nl2sql_pwd
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nl2sql -d nl2sql"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  redis:
+    image: docker.m.daocloud.io/library/redis:7-alpine
+    container_name: nl2sql-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  pg_data:
+  redis_data:

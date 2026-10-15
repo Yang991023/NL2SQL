@@ -1,0 +1,87 @@
+spring:
+  profiles:
+    active: local
+  main:
+    banner-mode: "off"
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/nl2sql
+    username: nl2sql
+    password: nl2sql_pwd
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 10000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: public
+    open-in-view: false
+
+  # HTTP 连接/读取超时（包含 LLM 调用）
+  mvc:
+    async:
+      request-timeout: 30000
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  compression:
+    enabled: true
+
+  # 文件下载 / 上传限制
+  tomcat:
+    max-swallow-size: 200MB
+
+# 业务配置
+nl2sql:
+  # JWT
+  jwt:
+    secret: "ZmFrZS1zZWNyZXQta2V5LWZvci1ubDJzcWwtbXZwLW9ubHktaW5zdGFuY2U="
+    expiration-seconds: 86400  # 24h
+    header: Authorization
+    prefix: "Bearer "
+
+  # AES 加密（数据源密码）
+  aes:
+    key: "nl2sql_aes_key_32_bytes_padding_x"  # 实际生产用 KMS
+
+  # SQL 执行
+  sql:
+    query-timeout-seconds: 15
+    max-rows: 10000           # 默认限流
+    export-max-rows: 100000  # 导出上限
+    export-timeout-seconds: 30
+
+  # LLM
+  llm:
+    base-url: ${LLM_BASE_URL:http://localhost:11434}
+    api-key: ${LLM_API_KEY:demo}
+    model: ${LLM_MODEL:qwen2.5-coder:7b}
+    timeout-seconds: 60
+
+  # 限流
+  ratelimit:
+    sql-exec-per-minute: 30
+
+  # AI 自动 Mock(开发模式,无真模型时使用)
+  ai:
+    auto-mock: ${AI_AUTO_MOCK:false}
+
+logging:
+  level:
+    root: INFO
+    com.nl2sql: DEBUG
+    org.hibernate.SQL: WARN
